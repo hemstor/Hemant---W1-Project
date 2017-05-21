@@ -1,0 +1,8 @@
+indata <- read.delim(file.choose(),header=1, sep = ";")
+indata$Date <- as.Date(indata$Date,"%d/%m/%Y")
+subdata <- subset(indata,indata$Date==as.Date("02/01/2007","%m/%d/%Y") | indata$Date==as.Date("02/02/2007","%m/%d/%Y"))
+subdata$datetime <- as.POSIXct(paste(subdata$Date,subdata$Time),format = "%Y-%m-%d %H:%M:%S")
+subdata$Global_active_power <- as.numeric(levels(subdata$Global_active_power)[subdata$Global_active_power])
+png(filename = "plot2.png",width = 480, height = 480, units = "px" )
+plot(subdata$datetime,subdata$Global_active_power, type = "l",ylab = "Global Active Power (kilowatts)", xlab = "")
+dev.off()
